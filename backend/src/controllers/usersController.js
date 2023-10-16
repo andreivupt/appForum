@@ -25,14 +25,15 @@ async function listUsers(request, response) {
 }
 
 async function storeUser(request, response) {
-    console.log(request.body)
+    
     const params = Array(
         request.body.name,
         request.body.username,
+        request.body.email,
         bcrypt.hashSync(request.body.password, 10)
     );
 
-    const query = 'INSERT INTO users(name,username,password) values(?,?,?);';
+    const query = 'INSERT INTO users(name,username,email,password) values(?,?,?,?);';
 
     connection.query(query, params, (err, results) => {
         if (results) {
@@ -40,7 +41,7 @@ async function storeUser(request, response) {
                 .status(201)
                 .json({
                     success: true,
-                    message: `Sucesso! Usuários cadastrado.`,
+                    message: `Sucesso! Usuário cadastrado.`,
                     data: results
                 });
         } else {
