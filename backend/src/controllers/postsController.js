@@ -26,13 +26,13 @@ async function listPosts(request, response) {
 async function storePost(request, response) {
     
     const params = Array(
-        request.body.description,
-        request.body.user_id,        
+        request.body.post,
+        request.body.userId,        
     );
-
+    
     const query = 'INSERT INTO posts(description,user_id) values(?,?);';
 
-    connection.query(query, params, (err, results) => {
+    connection.query(query, params, (err, results) => {        
         if (results) {
             response
                 .status(201)
