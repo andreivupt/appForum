@@ -9,10 +9,16 @@ const Nav = () => {
         localStorage.removeItem("_token");
         navigate("/");
     };
+
+    const home = () => {
+        navigate("/dashboard");
+    }
     
     return (
         <nav className='navbar'>
-            <h2>Fórum</h2>
+            <h2>
+                <span onClick={ home }>Fórum</span>
+            </h2>
             <div className='navbarRight'>
                 <button onClick={ signOut }>Sair</button>
             </div>

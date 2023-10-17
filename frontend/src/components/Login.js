@@ -5,7 +5,7 @@ import { api } from "../services/api";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, setUser] = useState(null);
+    //const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {

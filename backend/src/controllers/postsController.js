@@ -1,7 +1,12 @@
 const connection = require('../config/db');
 
 async function listPosts(request, response) {
-    connection.query('SELECT * FROM posts', (err, results) => {
+    const query = 'SELECT p.*, (SELECT count(r.post_id) FROM reactions r WHERE r.post_id = p.id ) as likes, ' + 
+    ' (SELECT count(c.post_id) FROM comments c WHERE c.post_id = p.id ) as comments ' +
+    ' FROM posts p ' + 
+    ' GROUP BY p.id ';
+
+    connection.query(query, (err, results) => {
         if (results) {
             response
                 .status(200)

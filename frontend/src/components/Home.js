@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Likes from "../utils/Likes";
+import Comments from "../utils/Comment";
 import { useNavigate } from "react-router-dom";
 import Nav from "./Nav";
 import { api } from '../services/api';
@@ -12,20 +14,19 @@ const Home = () => {
         const checkUser = () => {
             if (!localStorage.getItem('@auth:token')) {
                 navigate("/");
-            } else {
-                console.log("Autenticado");
             }
         };
         checkUser();
     }, [navigate]);
 
-    const fetchData = async () => {
-        const response = await api.get('/posts');
-        console.log(response.data.data);
-        setPostsList(response.data.data);
-    }
-    
-    fetchData();
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await api.get('/posts');
+            
+            setPostsList(response.data.data);
+        }
+        fetchData();
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -68,15 +69,18 @@ const Home = () => {
 
                 <div className='thread__container'>
                     {postsList.map((post) => (
-                        <div className='thread__item' key={post.id}>
-                            <p>{post.description}</p>
+                        <div className='thread__item' key={ post.id }>
+                            <p>{ post.description }</p>
                             <div className='react__container'>
-                                {/* <Likes numberOfLikes={2} threadId={post.id} />
+                                <Likes 
+                                    numberOfLikes={ post.likes } 
+                                    postId={ post.id } 
+                                />
                                 <Comments
-                                    numberOfComments={thread.replies.length}
-                                    threadId={thread.id}
-                                    title={thread.title}
-                                /> */}
+                                    numberOfComments={ post.comments }
+                                    postId={ post.id }
+                                    title={ post.description }
+                                />
                             </div>
                         </div>
                     ))}

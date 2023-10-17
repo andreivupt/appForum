@@ -10,8 +10,7 @@ async function reactionsByPostId(request, response) {
         request.params.post_id
     );
     console.log(params)
-    connection.query(query, params, (err, results) => {
-        console.log(results)
+    connection.query(query, params, (err, results) => {        
         if (results) {
             response
                 .status(200)
@@ -34,12 +33,12 @@ async function reactionsByPostId(request, response) {
 }
 
 async function storeReaction(request, response) {
-    
+        
     const params = Array(        
-        request.body.post_id,        
+        request.body.postId,        
         request.body.comment_id ? request.body.comment_id : null,
-        request.body.user_id,
-        request.body.type
+        request.body.userId,
+        type = 'LIKE'
     );
 
     const query = 'INSERT INTO reactions(post_id,comment_id,user_id,type) values(?,?,?,?);';
