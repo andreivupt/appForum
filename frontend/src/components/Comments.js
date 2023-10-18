@@ -5,8 +5,7 @@ import Nav from "./Nav";
 
 const Comments = () => {
 	const [commentsList, setCommentsList] = useState([]);
-	const [description, setComment] = useState("");
-	const [title, setTitle] = useState("");
+	const [description, setComment] = useState("");	
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -48,10 +47,8 @@ const Comments = () => {
 	return (
 		<>
 		<Nav />
-		<main className='replies'>
-			<h1 className='repliesTitle'>{title}</h1>
-
-			<form className='modal__content' onSubmit={handleSubmitComment}>
+		<main className='replies'>			
+			<form className='modal__content' onSubmit={ handleSubmitComment }>
 				<label htmlFor='reply'>Novo comentário</label>
 				<textarea
 					rows={5}
