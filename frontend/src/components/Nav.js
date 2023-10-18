@@ -6,7 +6,7 @@ const Nav = () => {
 
     const signOut = () => {
         alert("Usuário deslogando!");
-        localStorage.removeItem("_token");
+        localStorage.removeItem("@auth:token");
         navigate("/");
     };
 
