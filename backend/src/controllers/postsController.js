@@ -4,9 +4,9 @@ async function listPosts(request, response) {
     const query = 'SELECT p.*, (SELECT count(r.post_id) FROM reactions r WHERE r.post_id = p.id ) as likes, ' + 
     ' (SELECT count(c.post_id) FROM comments c WHERE c.post_id = p.id ) as comments ' +
     ' FROM posts p ' + 
-    ' GROUP BY p.id ';
+    ' GROUP BY p.id ORDER BY p.id DESC';
 
-    connection.query(query, (err, results) => {
+    connection.query(query, (err, results) => {        
         if (results) {
             response
                 .status(200)
@@ -28,8 +28,7 @@ async function listPosts(request, response) {
     })
 }
 
-async function storePost(request, response) {
-    
+async function storePost(request, response) {    
     const params = Array(
         request.body.post,
         request.body.userId,        

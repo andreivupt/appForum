@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 
 const Register = () => {
-    const [name, setName]         = useState("");
-    const [username, setUsername] = useState("");
+    const [name, setName]         = useState("");    
     const [email, setEmail]       = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -14,7 +13,6 @@ const Register = () => {
 
         const data = { 
             name,
-            username,
             email,
             password 
         };
@@ -41,16 +39,7 @@ const Register = () => {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                />
-                <label htmlFor='username'>Usuário</label>
-                <input
-                    type='text'
-                    name='username'
-                    id='username'
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+                />                
                 <label htmlFor='email'>E-mail</label>
                 <input
                     type='text'
@@ -68,7 +57,8 @@ const Register = () => {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                />
+                />              
+                
                 <button className='registerBtn'>CADASTRAR</button>
                 <p>
                     Já tem cadastro ? <Link to='/'>Clique aqui</Link>

@@ -13,20 +13,20 @@ const Home = () => {
     useEffect(() => {
         const checkUser = () => {
             if (!localStorage.getItem('@auth:token')) {
-                navigate("/");
+                //navigate("/");
             }
         };
         checkUser();
     }, [navigate]);
 
+    const fetchData = async () => {
+        const response = await api.get('/posts');        
+        setPostsList(response.data.data);
+    }
+
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await api.get('/posts');
-            
-            setPostsList(response.data.data);
-        }
         fetchData();
-    });
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,8 +38,10 @@ const Home = () => {
 
         const response = await api.post('/post/create', data);
         
-        if (response.data.success) {            
-            alert('Post criado com sucesso!');            
+        if (response.data.success) {    
+            setPost('')        
+            alert('Post criado com sucesso!');
+            fetchData();         
         } else {
             alert('Post não criado!')
         }
@@ -74,7 +76,8 @@ const Home = () => {
                             <div className='react__container'>
                                 <Likes 
                                     numberOfLikes={ post.likes } 
-                                    postId={ post.id } 
+                                    postId={ post.id }
+                                    setPostsList={ setPostsList }
                                 />
                                 <Comments
                                     numberOfComments={ post.comments }

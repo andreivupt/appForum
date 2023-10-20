@@ -1,7 +1,8 @@
 import React from "react";
 import { api } from '../services/api';
 
-const Likes = ({ numberOfLikes, postId }) => {
+const Likes = ({ numberOfLikes, postId, setPostsList}) => {
+    
     
     const handleLikeFunction = async () => {
         const data = {
@@ -11,7 +12,10 @@ const Likes = ({ numberOfLikes, postId }) => {
         const response = await api.post('/reaction/create', data);
         
         if (response.data.success) {           
-            alert(response.data.message);
+            alert(response.data.message);            
+            
+            const res = await api.get('/posts');                                
+            setPostsList(res.data.data);
         } else {
             alert('Não foi curtir');            
         }    

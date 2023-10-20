@@ -37,11 +37,10 @@ async function storeReaction(request, response) {
     const params = Array(        
         request.body.postId,        
         request.body.comment_id ? request.body.comment_id : null,
-        request.body.userId,
-        type = 'LIKE'
+        request.body.userId,        
     );
 
-    const query = 'INSERT INTO reactions(post_id,comment_id,user_id,type) values(?,?,?,?);';
+    const query = 'INSERT INTO reactions(post_id,comment_id,user_id) values(?,?,?);';
 
     connection.query(query, params, (err, results) => {
         if (results) {

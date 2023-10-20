@@ -23,26 +23,27 @@ const Comments = () => {
         if (response.data.success) {
             setComment('')
             alert('Comentário criado');
+			fetchComments();
         } else {
             alert('Não foi criado comentário');
             navigate('/dashboard');
         }        
 	};
 
-	useEffect(() => {
-		const fetchComments = async () => {
-            const response = await api.get('/comments/' + id);
-            
-            if (response.data.success) {                
-                console.log(response.data.data);
-                setCommentsList(response.data.data);
-            } else {
-                alert('Não foi criado comentário');
-                navigate('/dashboard');
-            }		
-		};
+	const fetchComments = async () => {
+		const response = await api.get('/comments/' + id);
+		
+		if (response.data.success) {        
+			setCommentsList(response.data.data);
+		} else {
+			alert('Não foi criado comentário');
+			navigate('/dashboard');
+		}		
+	};
+
+	useEffect(() => {		
 		fetchComments();
-	});
+	}, []);
 
 	return (
 		<>

@@ -24,16 +24,17 @@ async function listUsers(request, response) {
     })
 }
 
-async function storeUser(request, response) {
-    
+async function storeUser(request, response) {   
+    console.log(request.body) 
+    //console.log(request.file) 
     const params = Array(
         request.body.name,
-        request.body.username,
         request.body.email,
+        //request.body.image,
         bcrypt.hashSync(request.body.password, 10)
     );
 
-    const query = 'INSERT INTO users(name,username,email,password) values(?,?,?,?);';
+    const query = 'INSERT INTO users(name,email,password) values(?,?,?);';
 
     connection.query(query, params, (err, results) => {
         if (results) {

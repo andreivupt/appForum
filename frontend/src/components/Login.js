@@ -5,7 +5,6 @@ import { api } from "../services/api";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    //const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,7 +19,7 @@ const Login = () => {
         
         if (response.data.success && response.data.data.status === 'A') {
 			navigate("/dashboard");
-            console.log(response.data.data);
+
             localStorage.setItem('@auth:user', response.data.data.id);
             localStorage.setItem('@auth:token', response.data.data.token);
         } else {
