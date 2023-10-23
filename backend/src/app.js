@@ -4,9 +4,9 @@ const loginRouter     = require('./routes/loginRouter');
 const postRouter      = require('./routes/postsRouter');
 const commentRouter   = require('./routes/commentsRouter');
 const reactionsRouter = require('./routes/reactionsRouter');
-const dotenv          = require('dotenv').config();
 const cors            = require('cors');
 const app             = express();
+require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());

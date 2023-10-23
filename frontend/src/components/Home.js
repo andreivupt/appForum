@@ -13,7 +13,7 @@ const Home = () => {
     useEffect(() => {
         const checkUser = () => {
             if (!localStorage.getItem('@auth:token')) {
-                //navigate("/");
+                navigate("/");
             }
         };
         checkUser();

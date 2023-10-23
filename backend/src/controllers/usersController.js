@@ -25,12 +25,9 @@ async function listUsers(request, response) {
 }
 
 async function storeUser(request, response) {   
-    console.log(request.body) 
-    //console.log(request.file) 
     const params = Array(
         request.body.name,
         request.body.email,
-        //request.body.image,
         bcrypt.hashSync(request.body.password, 10)
     );
 
