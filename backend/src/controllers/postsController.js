@@ -1,5 +1,4 @@
 const connection = require('../config/db');
-const multer = require("multer");
 
 async function listPosts(request, response) {
     const query = 'SELECT p.*, (SELECT count(r.post_id) FROM reactions r WHERE r.post_id = p.id ) as likes, ' + 
@@ -30,25 +29,13 @@ async function listPosts(request, response) {
 }
 
 async function storePost(request, response) {    
+    const query = 'INSERT INTO posts(description,user_id, image) values(?,?, ?);';
+
     const params = Array(
         request.body.post,
         request.body.userId,
-        request.file.file   
+        request.file.filename   
     );
-    console.log(params);
-    var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, "./uploads");
-        },
-        filename: function (req, file, cb) {
-            console.log(file);
-            cb(null, file.originalname);
-        },
-    });
-    var upload = multer({ storage: storage });
-    console.log(upload);
-    
-    const query = 'INSERT INTO posts(description,user_id) values(?,?);';
 
     connection.query(query, params, (err, results) => {        
         if (results) {
