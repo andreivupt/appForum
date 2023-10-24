@@ -7,6 +7,7 @@ import { api } from '../services/api';
 
 const Home = () => {
     const [post, setPost] = useState("");
+    const [image, setImage] = useState();
     const [postsList, setPostsList] = useState([]);
     const navigate = useNavigate();
 
@@ -29,14 +30,17 @@ const Home = () => {
     }, []);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const data = {
-            post,
-            userId: localStorage.getItem("@auth:user")
-        }
-
-        const response = await api.post('/post/create', data);
+        //e.preventDefault();
+        
+        let formData = new FormData();
+        //formData.append('image', image.data);        
+        
+        formData.append('post', post);
+        formData.append('userId', localStorage.getItem("@auth:user"));
+        formData.append('file', image);
+        
+        console.log(formData);
+        const response = false;// await api.post('/post/create', formData);
         
         if (response.data.success) {    
             setPost('')        
@@ -62,6 +66,15 @@ const Home = () => {
                             value={ post }
                             onChange={(e) => setPost(e.target.value)}
                         />
+
+                        <input 
+                            type="file" 
+                            name="image" 
+                            accept="image/*" 
+                            multiple={false}
+                            onChange={ (e) => setImage(e.target.files[0]) } 
+                        />
+
                     </div>
                     <button 
                         className='homeBtn'>
