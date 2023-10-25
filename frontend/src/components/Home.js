@@ -7,8 +7,10 @@ import { api } from '../services/api';
 
 const Home = () => {
     const [post, setPost] = useState("");
+    const [image, setImage] = useState();
     const [postsList, setPostsList] = useState([]);
     const navigate = useNavigate();
+    const images = 'http://localhost:3001/uploads/';
 
     useEffect(() => {
         const checkUser = () => {
@@ -29,14 +31,17 @@ const Home = () => {
     }, []);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const data = {
-            post,
-            userId: localStorage.getItem("@auth:user")
-        }
-
-        const response = await api.post('/post/create', data);
+        //e.preventDefault();
+        
+        let formData = new FormData();
+        //formData.append('image', image.data);        
+        
+        formData.append('post', post);
+        formData.append('userId', localStorage.getItem("@auth:user"));
+        formData.append('file', image);
+        
+        console.log(formData);
+        const response = await api.post('/post/create', formData);
         
         if (response.data.success) {    
             setPost('')        
@@ -62,6 +67,15 @@ const Home = () => {
                             value={ post }
                             onChange={(e) => setPost(e.target.value)}
                         />
+
+                        <input 
+                            type="file" 
+                            name="image" 
+                            accept="image/*" 
+                            multiple={false}
+                            onChange={ (e) => setImage(e.target.files[0]) } 
+                        />
+
                     </div>
                     <button 
                         className='homeBtn'>
@@ -70,23 +84,33 @@ const Home = () => {
                 </form>
 
                 <div className='thread__container'>
-                    {postsList.map((post) => (
-                        <div className='thread__item' key={ post.id }>
-                            <p>{ post.description }</p>
-                            <div className='react__container'>
-                                <Likes 
-                                    numberOfLikes={ post.likes } 
-                                    postId={ post.id }
-                                    setPostsList={ setPostsList }
-                                />
-                                <Comments
-                                    numberOfComments={ post.comments }
-                                    postId={ post.id }
-                                    title={ post.description }
-                                />
+                    {postsList.map((post) => {                        
+                        return <>
+                            <div className='thread__item' key={ post.id }>
+                                <p>{ post.description }</p>
+                                <div className='react__container'>
+                                    <Likes 
+                                        numberOfLikes={ post.likes } 
+                                        postId={ post.id }
+                                        setPostsList={ setPostsList }
+                                    />
+                                    <Comments
+                                        numberOfComments={ post.comments }
+                                        postId={ post.id }
+                                        title={ post.description }
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                            
+                            { post.image ? 
+                            <div className='thread__item'>                                    
+                                <img src={ images + post.image} alt="img" height={100} width={100}/>
+                            </div> :
+                            <div></div>
+                        }
+                        
+                        </>;
+                    })}
                 </div>
             </main>
         </>

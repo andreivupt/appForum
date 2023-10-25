@@ -29,12 +29,13 @@ async function listPosts(request, response) {
 }
 
 async function storePost(request, response) {    
+    const query = 'INSERT INTO posts(description,user_id, image) values(?,?, ?);';
+
     const params = Array(
         request.body.post,
-        request.body.userId,        
+        request.body.userId,
+        request.file.filename   
     );
-    
-    const query = 'INSERT INTO posts(description,user_id) values(?,?);';
 
     connection.query(query, params, (err, results) => {        
         if (results) {
