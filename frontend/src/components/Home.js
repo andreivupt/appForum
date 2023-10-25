@@ -10,6 +10,7 @@ const Home = () => {
     const [image, setImage] = useState();
     const [postsList, setPostsList] = useState([]);
     const navigate = useNavigate();
+    const images = 'http://localhost:3001/uploads/';
 
     useEffect(() => {
         const checkUser = () => {
@@ -40,7 +41,7 @@ const Home = () => {
         formData.append('file', image);
         
         console.log(formData);
-        const response = false;// await api.post('/post/create', formData);
+        const response = await api.post('/post/create', formData);
         
         if (response.data.success) {    
             setPost('')        
@@ -83,23 +84,33 @@ const Home = () => {
                 </form>
 
                 <div className='thread__container'>
-                    {postsList.map((post) => (
-                        <div className='thread__item' key={ post.id }>
-                            <p>{ post.description }</p>
-                            <div className='react__container'>
-                                <Likes 
-                                    numberOfLikes={ post.likes } 
-                                    postId={ post.id }
-                                    setPostsList={ setPostsList }
-                                />
-                                <Comments
-                                    numberOfComments={ post.comments }
-                                    postId={ post.id }
-                                    title={ post.description }
-                                />
+                    {postsList.map((post) => {                        
+                        return <>
+                            <div className='thread__item' key={ post.id }>
+                                <p>{ post.description }</p>
+                                <div className='react__container'>
+                                    <Likes 
+                                        numberOfLikes={ post.likes } 
+                                        postId={ post.id }
+                                        setPostsList={ setPostsList }
+                                    />
+                                    <Comments
+                                        numberOfComments={ post.comments }
+                                        postId={ post.id }
+                                        title={ post.description }
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                            
+                            { post.image ? 
+                            <div className='thread__item'>                                    
+                                <img src={ images + post.image} alt="img" height={100} width={100}/>
+                            </div> :
+                            <div></div>
+                        }
+                        
+                        </>;
+                    })}
                 </div>
             </main>
         </>
